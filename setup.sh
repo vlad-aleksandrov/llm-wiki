@@ -101,6 +101,16 @@ done
 echo -e "${GREEN}Namespaces: $NAMESPACES${NC}"
 echo ""
 
+# ----- Step 4.5: Git auto-push -----
+echo -e "${BOLD}Enable git auto-push after commits? [y/N]${NC}"
+echo "Runs git push after every ingest, lint, and import operation."
+read -p "" auto_push_input
+GIT_AUTO_PUSH=false
+if [ "$auto_push_input" = "y" ] || [ "$auto_push_input" = "Y" ]; then
+    GIT_AUTO_PUSH=true
+fi
+echo ""
+
 # ----- Step 5: Memory path -----
 echo -e "${BOLD}Where is your Claude Code memory directory?${NC}"
 echo -e "(Usually: ~/.claude/projects/<project>/memory/)"
@@ -241,6 +251,7 @@ tool: $TOOL
 wiki_path: $wiki_path
 pages_dir: $PAGES_DIR
 memory_path: ${memory_path:-""}
+git_auto_push: $GIT_AUTO_PUSH
 
 namespaces:
 $(for ns in $NAMESPACES; do echo "  - $ns"; done)
@@ -260,6 +271,11 @@ else
     write_config
 fi
 
+# Create XDG config pointer for plugin-based install
+mkdir -p "$HOME/.config/llm-wiki"
+echo "{\"configPath\": \"$CONFIG_FILE\"}" > "$HOME/.config/llm-wiki/config.json"
+echo -e "  ${GREEN}Created: ~/.config/llm-wiki/config.json${NC}"
+
 # ----- Step 10: Install /wiki skill -----
 echo ""
 echo -e "${BOLD}Install /wiki skill for Claude Code?${NC}"
@@ -271,13 +287,6 @@ if [ "$project_path" != "skip" ] && [ -n "$project_path" ]; then
     COMMANDS_DIR="$project_path/.claude/commands"
     mkdir -p "$COMMANDS_DIR"
     cp "$SCRIPT_DIR/wiki.md" "$COMMANDS_DIR/wiki.md"
-
-    # Patch config path into skill
-    if [ "$(uname)" = "Darwin" ]; then
-        sed -i '' "s|<CONFIG_PATH>|$CONFIG_FILE|g" "$COMMANDS_DIR/wiki.md"
-    else
-        sed -i "s|<CONFIG_PATH>|$CONFIG_FILE|g" "$COMMANDS_DIR/wiki.md"
-    fi
     echo -e "${GREEN}Installed /wiki skill to $COMMANDS_DIR/wiki.md${NC}"
 fi
 

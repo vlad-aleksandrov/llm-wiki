@@ -1,0 +1,22 @@
+{
+  "name": "second-brain-wiki",
+  "owner": {
+    "name": "Vlad Aleksandrov",
+    "github": "vlad-aleksandrov"
+  },
+  "metadata": {
+    "description": "LLM-powered persistent wiki for Claude Code. Ingest sources, query knowledge, lint consistency. Logseq and Obsidian support.",
+    "version": "1.2.0"
+  },
+  "plugins": [
+    {
+      "name": "llm-wiki",
+      "description": "Persistent wiki powered by Claude Code. /wiki ingest, /wiki query, /wiki lint — with git auto-push. Logseq and Obsidian support.",
+      "version": "1.2.0",
+      "author": {
+        "name": "Vlad Aleksandrov"
+      },
+      "source": "./plugins/llm-wiki"
+    }
+  ]
+}

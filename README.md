@@ -1,10 +1,10 @@
 # llm-wiki
 
-[![License: MIT](https://img.shields.io/github/license/MehmetGoekce/llm-wiki)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/MehmetGoekce/llm-wiki)](https://github.com/MehmetGoekce/llm-wiki/releases)
-[![Stars](https://img.shields.io/github/stars/MehmetGoekce/llm-wiki?style=social)](https://github.com/MehmetGoekce/llm-wiki/stargazers)
-[![Top Language](https://img.shields.io/github/languages/top/MehmetGoekce/llm-wiki)](https://github.com/MehmetGoekce/llm-wiki)
-[![Last Commit](https://img.shields.io/github/last-commit/MehmetGoekce/llm-wiki)](https://github.com/MehmetGoekce/llm-wiki/commits)
+[![License: MIT](https://img.shields.io/github/license/vlad-aleksandrov/llm-wiki)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/vlad-aleksandrov/llm-wiki)](https://github.com/vlad-aleksandrov/llm-wiki/releases)
+[![Stars](https://img.shields.io/github/stars/vlad-aleksandrov/llm-wiki?style=social)](https://github.com/vlad-aleksandrov/llm-wiki/stargazers)
+[![Top Language](https://img.shields.io/github/languages/top/vlad-aleksandrov/llm-wiki)](https://github.com/vlad-aleksandrov/llm-wiki)
+[![Last Commit](https://img.shields.io/github/last-commit/vlad-aleksandrov/llm-wiki)](https://github.com/vlad-aleksandrov/llm-wiki/commits)
 
 Build [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) with Claude Code. Two-layer cache architecture (L1/L2). Supports Logseq and Obsidian.
 

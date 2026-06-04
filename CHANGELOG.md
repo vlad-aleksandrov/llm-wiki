@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-06-03
+
+### Added
+
+- `git_auto_push` feature — set `git_auto_push: true` in `llm-wiki.yml` to push to remote after every ingest, lint, and import commit
+- `setup.sh` now prompts for git auto-push preference and writes it to `llm-wiki.yml`
+- `setup.sh` creates `~/.config/llm-wiki/config.json` (XDG pointer to `llm-wiki.yml`) for plugin-based installs
+- Claude Code plugin packaging — installable as `llm-wiki@second-brain-wiki` via `/plugin install`
+- `.claude-plugin/marketplace.json` — registers repo as `second-brain-wiki` marketplace
+- `plugins/llm-wiki/` — plugin layout with `skills/wiki/SKILL.md`
+
+### Changed
+
+- Wiki skill config resolution: reads `~/.config/llm-wiki/config.json` → `configPath` → `llm-wiki.yml` (replaces wiki-root heuristic)
+- README badges updated to `vlad-aleksandrov/llm-wiki`
+
+### Notes
+
+- Upstream: `MehmetGoekce/llm-wiki`. This fork owns the `second-brain-wiki` marketplace and `git_auto_push` feature.
+- Existing direct installs: run `mkdir -p ~/.config/llm-wiki && echo "{\"configPath\": \"$(realpath ~/your/llm-wiki.yml)\"}" > ~/.config/llm-wiki/config.json`
+
 ## [1.1.1] - 2026-04-18
 
 ### Added

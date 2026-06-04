@@ -1,0 +1,12 @@
+{
+  "name": "llm-wiki",
+  "version": "1.2.0",
+  "description": "Persistent wiki powered by Claude Code. /wiki ingest, /wiki query, /wiki lint — with git auto-push. Logseq and Obsidian support.",
+  "author": {
+    "name": "Vlad Aleksandrov"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/vlad-aleksandrov/llm-wiki",
+  "repository": "https://github.com/vlad-aleksandrov/llm-wiki",
+  "keywords": ["wiki", "logseq", "obsidian", "knowledge", "llm", "second-brain"]
+}
