@@ -6,7 +6,7 @@
 [![Top Language](https://img.shields.io/github/languages/top/vlad-aleksandrov/llm-wiki)](https://github.com/vlad-aleksandrov/llm-wiki)
 [![Last Commit](https://img.shields.io/github/last-commit/vlad-aleksandrov/llm-wiki)](https://github.com/vlad-aleksandrov/llm-wiki/commits)
 
-Build [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) with Claude Code. Two-layer cache architecture (L1/L2). Supports Logseq and Obsidian.
+Build [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) with Claude Code. L3 of a three-layer memory architecture (L1/L2/L3). Supports Logseq and Obsidian.
 
 ```mermaid
 graph TB
@@ -20,23 +20,35 @@ graph TB
         L1 --> L1C
     end
 
-    subgraph "On Demand — /wiki query"
-        L2[L2: Wiki]
-        L2P[Projects & History]
-        L2W[Workflows & Processes]
-        L2K[Research & Learning]
+    subgraph "On Demand — brain-load"
+        L2[L2: Project Sessions]
+        L2P[Current Plan]
+        L2S[Session Log]
+        L2D[Decisions]
         L2 --> L2P
-        L2 --> L2W
-        L2 --> L2K
+        L2 --> L2S
+        L2 --> L2D
     end
 
-    NEW[New Knowledge] --> ROUTE{Quick rule?}
-    ROUTE -->|Yes| L1
-    ROUTE -->|No| L2
+    subgraph "On Demand — /wiki query"
+        L3[L3: Wiki]
+        L3W[Workflows & Processes]
+        L3K[Cross-project Patterns]
+        L3R[Research & Learning]
+        L3 --> L3W
+        L3 --> L3K
+        L3 --> L3R
+    end
+
+    NEW[New Knowledge] --> ROUTE{Routing}
+    ROUTE -->|Quick rule| L1
+    ROUTE -->|Project session| L2
+    ROUTE -->|Long-term| L3
 
     USER[User Query] --> CLAUDE[Claude Code]
     CLAUDE --> L1
-    CLAUDE -->|Deep question| L2
+    CLAUDE -->|Project context| L2
+    CLAUDE -->|Deep question| L3
 ```
 
 ## What is this?
@@ -46,29 +58,30 @@ graph TB
 
 In April 2026, Andrej Karpathy published a gist called "LLM Wiki" that got 5,000+ stars in days. The idea: let an LLM maintain a structured, cross-referenced wiki for you. Feed it raw sources, it extracts facts, links them together, and keeps everything consistent. The wiki becomes a persistent, compounding artifact instead of a graveyard of stale notes.
 
-Everyone loved the concept. Almost nobody built one. The gist describes *what* to build, not *how* to wire it up with real tools, real files, and real workflows. **llm-wiki** is the implementation. It uses Claude Code as the LLM brain and either Logseq or Obsidian as the wiki UI, with a two-layer cache architecture that turned out to be the key insight Karpathy's gist does not mention.
+Everyone loved the concept. Almost nobody built one. The gist describes *what* to build, not *how* to wire it up with real tools, real files, and real workflows. **llm-wiki** is the implementation. It uses Claude Code as the LLM brain and either Logseq or Obsidian as the wiki UI, and serves as the L3 long-term knowledge layer in a three-layer memory architecture.
 
 ## Why use this?
 
 - **5-minute setup.** `./setup.sh` creates your schema, namespaces, and git tracking. No manual design needed.
 - **Claude becomes your wiki maintainer.** `/wiki ingest` updates 5-15 pages with cross-references from a single source.
-- **L1/L2 architecture.** Auto-loaded rules in memory (L1) + deep knowledge in the wiki (L2). No other tool has this.
+- **L1/L2/L3 architecture.** Auto-loaded rules (L1) + project session context (L2) + long-term wiki knowledge (L3, this tool). Knowledge compounds across sessions and projects.
 - **Built-in quality checks.** `/wiki lint` finds orphan pages, stale content, broken refs, and credential leaks.
 - **Logseq + Obsidian.** Use whichever you already have. No tool switch required.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/MehmetGoekce/llm-wiki.git
+git clone https://github.com/vlad-aleksandrov/llm-wiki.git
 cd llm-wiki
 ./setup.sh
 ```
 
-`setup.sh` does three things:
+`setup.sh` does four things:
 
-- Copies the `/wiki` skill and schema template into your Claude Code project
-- Detects your wiki app (Logseq or Obsidian) and configures paths accordingly
-- Creates the initial namespace structure with hub pages
+- Prompts for tool (Logseq or Obsidian), namespaces, and git auto-push preference
+- Writes `llm-wiki.yml` to your wiki root and `~/.config/llm-wiki/config.json` so the skill can find it
+- Creates the initial schema, dashboard, and hub pages
+- Optionally installs the `/wiki` skill to your Claude Code project
 
 Then in Claude Code:
 
@@ -80,20 +93,25 @@ Then in Claude Code:
 
 That is it. The wiki starts sparse and gets denser with every ingest.
 
-## The L1/L2 Architecture
+## The L1/L2/L3 Architecture
 
 This is the part not in Karpathy's gist, and it turned out to be the most important design decision.
 
 When you start building a wiki, the instinct is to put everything in one place. That is wrong. Some knowledge must be available in *every* session, before you even ask a question -- things like "max 2-3 SSH calls to the VPS, never 10+" or "always use ISO 8601 dates." If the LLM has to query the wiki to learn these rules, it has already made the mistake.
 
-Other knowledge only matters in specific contexts. The full history of a project. A detailed API workflow. Loading all of this into every session wastes the context window.
+Other knowledge is project-specific and short-lived -- the current sprint plan, yesterday's decisions, a session log of what you tried. Loading this into every session wastes context, and it does not belong in a long-lived wiki either.
+
+The rest is deep knowledge that compounds over time -- research, cross-project patterns, accumulated domain expertise. It belongs in a structured wiki that you can query when you need it.
 
 The solution maps to a concept every engineer knows: **CPU cache hierarchy.**
 
 | Layer | What | Size | Loading | Contains |
 |-------|------|------|---------|----------|
 | **L1** | Claude Code Memory | ~10-20 files | Auto-loaded every session | Rules, gotchas, identity, credentials |
-| **L2** | Wiki (Logseq/Obsidian) | ~50-200 pages | On-demand via `/wiki query` | Projects, workflows, research, deep knowledge |
+| **L2** | Project Sessions | ~5-20 pages | On-demand per project | Active plan, session log, decisions |
+| **L3** | Wiki (Logseq/Obsidian) | ~50-200 pages | On-demand via `/wiki query` | Research, workflows, cross-project patterns |
+
+**llm-wiki is the L3 layer.** For L2 (project session context), [logseq-brain](https://github.com/vlad-aleksandrov/LogseqBrain) provides `brain-load` / `brain-save` across sessions; any tool that saves and restores project state works.
 
 ```mermaid
 graph TB
@@ -107,28 +125,43 @@ graph TB
         L1 --> L1C
     end
 
-    subgraph "On Demand — /wiki query"
-        L2[L2: Wiki]
-        L2P[Projects & History]
-        L2W[Workflows & Processes]
-        L2K[Research & Learning]
+    subgraph "On Demand — brain-load"
+        L2[L2: Project Sessions]
+        L2P[Current Plan]
+        L2S[Session Log]
+        L2D[Decisions]
         L2 --> L2P
-        L2 --> L2W
-        L2 --> L2K
+        L2 --> L2S
+        L2 --> L2D
     end
 
-    NEW[New Knowledge] --> ROUTE{Quick rule<br/>or gotcha?}
-    ROUTE -->|Yes| L1
-    ROUTE -->|No| L2
+    subgraph "On Demand — /wiki query"
+        L3[L3: Wiki]
+        L3W[Workflows & Processes]
+        L3K[Cross-project Patterns]
+        L3R[Research & Learning]
+        L3 --> L3W
+        L3 --> L3K
+        L3 --> L3R
+    end
+
+    NEW[New Knowledge] --> ROUTE{Routing}
+    ROUTE -->|Quick rule| L1
+    ROUTE -->|Project session| L2
+    ROUTE -->|Long-term| L3
 
     USER[User Query] --> CLAUDE[Claude Code]
     CLAUDE --> L1
-    CLAUDE -->|Deep question| L2
+    CLAUDE -->|Project context| L2
+    CLAUDE -->|Deep question| L3
 ```
 
-**The routing rule is simple:** Would the LLM making a mistake without this knowledge be dangerous or embarrassing? Then it belongs in L1. Would the mistake be merely inconvenient? Then L2.
+**The routing rule:**
+- Dangerous or embarrassing to forget? → **L1** (auto-loaded, present before you ask)
+- Project-specific and short-lived? → **L2** (load per session, discard when the project ships)
+- Valuable long-term, useful across projects? → **L3** (this wiki)
 
-Credentials are a special case -- they *must* live in L1 because the wiki is typically git-tracked. The L1 memory directory is excluded from git, making it the only safe place for secrets.
+Credentials are a special case -- they *must* live in L1 because the wiki is git-tracked. The L1 memory directory is excluded from git, making it the only safe place for secrets.
 
 For the full deep-dive, see [docs/l1-l2-architecture.md](docs/l1-l2-architecture.md).
 
@@ -155,7 +188,7 @@ graph LR
     E --> GIT[git commit]
 ```
 
-**Phase 1 -- Analyze & Extract.** Claude reads the source and extracts entities, facts, relationships, and dates. It classifies each piece by domain (business, technical, content, etc.) and checks whether it belongs in L1 (quick rule) or L2 (deep knowledge).
+**Phase 1 -- Analyze & Extract.** Claude reads the source and extracts entities, facts, relationships, and dates. It classifies each piece by domain (business, technical, content, etc.) and checks whether it belongs in L1 (quick rule) or L3 (deep knowledge).
 
 **Phase 2 -- Scan Wiki.** Claude reads the schema, then scans existing pages to find which ones the new information affects. If you mention a tool that already has an entity page, it knows to update that page too.
 
@@ -182,7 +215,7 @@ The schema defines:
 - **8 namespaces** (Business, Tech, Content, Projects, People, Learning, Reference, Careers)
 - **5 page types** (Entity, Project, Knowledge, Feedback, Hub) with required properties
 - **Lint rules** for automated health checks
-- **L1/L2 boundary** so the system knows where new knowledge should be routed
+- **L1/L3 boundary** so the system knows where new knowledge should be routed
 
 For the complete schema reference, see [docs/schema-reference.md](docs/schema-reference.md).
 
@@ -252,7 +285,7 @@ Every number has a date. Decisions have rationale. Open questions are explicit. 
 
 ## Configuration
 
-`setup.sh` creates `llm-wiki.yml` in your wiki root. You can also create it manually:
+`setup.sh` creates `llm-wiki.yml` in your wiki root and `~/.config/llm-wiki/config.json` pointing to it. You can also create both manually:
 
 ```yaml
 # llm-wiki.yml
@@ -261,6 +294,7 @@ tool: logseq          # or "obsidian"
 wiki_path: ~/Documents/MyWiki/
 pages_dir: pages      # relative to wiki_path
 memory_path: ~/.claude/projects/my-project/memory/
+git_auto_push: false  # push to remote after every wiki commit
 
 namespaces:
   - Business
@@ -293,12 +327,17 @@ language:
   tech: en        # Language for technical content
 ```
 
+```json
+// ~/.config/llm-wiki/config.json
+{"configPath": "/absolute/path/to/your/llm-wiki.yml"}
+```
+
 ## Trade-offs
 
 No system is perfect. Some things to know:
 
 - **The schema feels overengineered at first.** With 10 pages, defining 5 page types and 8 lint rules seems like overkill. Past 50 pages, you will be grateful for the consistency. Define the schema early -- it is much harder to retrofit one later.
-- **Two systems means you need a clear boundary.** Having both L1 and L2 means you could accidentally put the same information in both places. The lint rule for L1/L2 duplicates exists precisely for this reason.
+- **Three layers means you need clear boundaries.** Having L1, L2, and L3 means you could accidentally put the same information in multiple places. The lint rule for L1/L3 duplicates exists precisely for this reason.
 - **Parallel agents can conflict.** If you have multiple Claude sessions writing to wiki files simultaneously, concurrent edits can cause conflicts. Treat wiki files as a shared resource.
 - **Start with fewer hub pages.** Let them emerge organically from ingest operations rather than creating empty hubs upfront.
 
@@ -306,7 +345,7 @@ No system is perfect. Some things to know:
 
 - [FAQ](docs/faq.md) — Common questions before you run `setup.sh`
 - [Troubleshooting](docs/troubleshooting.md) — Setup, integration, and runtime issues
-- [L1/L2 Architecture](docs/l1-l2-architecture.md) — Why two layers, how to route knowledge
+- [L1/L2/L3 Architecture](docs/l1-l2-architecture.md) — Why three layers, how to route knowledge
 - [Schema Reference](docs/schema-reference.md) — Page types, properties, lint rules
 - [Logseq vs. Obsidian](docs/logseq-vs-obsidian.md) — Detailed comparison and migration notes
 
