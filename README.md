@@ -212,7 +212,7 @@ The schema is the contract between you and the LLM. Without it, the LLM creates 
 
 The schema defines:
 
-- **8 namespaces** (Business, Tech, Content, Projects, People, Learning, Reference, Careers)
+- **7 namespaces** (Business, Tech, Content, Projects, People, Learning, Reference)
 - **5 page types** (Entity, Project, Knowledge, Feedback, Hub) with required properties
 - **Lint rules** for automated health checks
 - **L1/L3 boundary** so the system knows where new knowledge should be routed
@@ -304,7 +304,6 @@ namespaces:
   - People
   - Learning
   - Reference
-  - Careers
 
 # Lint settings
 lint:
