@@ -83,7 +83,7 @@ if [ -n "$PAGES_DIR" ] && [ ! -d "$pages_path" ]; then
 fi
 
 # ----- Step 4: Namespaces -----
-DEFAULT_NS="Business Tech Content Projects People Learning Reference"
+DEFAULT_NS="Business Tech Content Research People Learning Reference"
 echo -e "${BOLD}Which namespaces do you want?${NC}"
 echo -e "Default: ${CYAN}$DEFAULT_NS${NC}"
 read -p "Enter space-separated list (or press Enter for default): " custom_ns
