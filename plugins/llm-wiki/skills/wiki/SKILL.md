@@ -1,3 +1,12 @@
+---
+name: wiki
+description: >
+  Persistent wiki knowledge management — /wiki ingest <source>, /wiki query <question>,
+  /wiki lint [--fix], /wiki status, /wiki import.
+  Triggers: when the user types "/wiki" followed by a subcommand (ingest, query, lint, status, import).
+  Don't fire for general questions about wiki contents without an explicit /wiki prefix.
+---
+
 # /wiki - LLM Wiki
 
 Persistent knowledge management powered by Claude Code. Maintains a structured wiki in Logseq or Obsidian using the L1/L2 cache architecture.
