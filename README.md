@@ -30,7 +30,7 @@ graph TB
         L2 --> L2D
     end
 
-    subgraph "On Demand — /wiki query"
+    subgraph "On Demand — /llm-wiki query"
         L3[L3: Wiki]
         L3W[Workflows & Processes]
         L3K[Cross-project Patterns]
@@ -63,9 +63,9 @@ Everyone loved the concept. Almost nobody built one. The gist describes *what* t
 ## Why use this?
 
 - **5-minute setup.** `./setup.sh` creates your schema, namespaces, and git tracking. No manual design needed.
-- **Claude becomes your wiki maintainer.** `/wiki ingest` updates 5-15 pages with cross-references from a single source.
+- **Claude becomes your wiki maintainer.** `/llm-wiki ingest` updates 5-15 pages with cross-references from a single source.
 - **L1/L2/L3 architecture.** Auto-loaded rules (L1) + project session context (L2) + long-term wiki knowledge (L3, this tool). Knowledge compounds across sessions and projects.
-- **Built-in quality checks.** `/wiki lint` finds orphan pages, stale content, broken refs, and credential leaks.
+- **Built-in quality checks.** `/llm-wiki lint` finds orphan pages, stale content, broken refs, and credential leaks.
 - **Logseq + Obsidian.** Use whichever you already have. No tool switch required.
 
 ## Quick Start
@@ -81,14 +81,14 @@ cd llm-wiki
 - Prompts for tool (Logseq or Obsidian), namespaces, and git auto-push preference
 - Writes `llm-wiki.yml` to your wiki root and `~/.config/llm-wiki/config.json` so the skill can find it
 - Creates the initial schema, dashboard, and hub pages
-- Optionally installs the `/wiki` skill to your Claude Code project
+- Optionally installs the `/llm-wiki` skill to your Claude Code project
 
 Then in Claude Code:
 
 ```
-/wiki ingest "your first source"
-/wiki query "what do I know about X?"
-/wiki lint
+/llm-wiki ingest "your first source"
+/llm-wiki query "what do I know about X?"
+/llm-wiki lint
 ```
 
 That is it. The wiki starts sparse and gets denser with every ingest.
@@ -109,7 +109,7 @@ The solution maps to a concept every engineer knows: **CPU cache hierarchy.**
 |-------|------|------|---------|----------|
 | **L1** | Claude Code Memory | ~10-20 files | Auto-loaded every session | Rules, gotchas, identity, credentials |
 | **L2** | Project Sessions | ~5-20 pages | On-demand per project | Active plan, session log, decisions |
-| **L3** | Wiki (Logseq/Obsidian) | ~50-200 pages | On-demand via `/wiki query` | Research, workflows, cross-project patterns |
+| **L3** | Wiki (Logseq/Obsidian) | ~50-200 pages | On-demand via `/llm-wiki query` | Research, workflows, cross-project patterns |
 
 **llm-wiki is the L3 layer.** For L2 (project session context), [logseq-brain](https://github.com/vlad-aleksandrov/LogseqBrain) provides `brain-load` / `brain-save` across sessions; any tool that saves and restores project state works.
 
@@ -135,7 +135,7 @@ graph TB
         L2 --> L2D
     end
 
-    subgraph "On Demand — /wiki query"
+    subgraph "On Demand — /llm-wiki query"
         L3[L3: Wiki]
         L3W[Workflows & Processes]
         L3K[Cross-project Patterns]
@@ -169,14 +169,14 @@ For the full deep-dive, see [docs/l1-l2-architecture.md](docs/l1-l2-architecture
 
 | Command | Description |
 |---------|-------------|
-| `/wiki ingest <source>` | Process a source (URL, file, text), update 5-15 wiki pages |
-| `/wiki query <question>` | Search wiki, synthesize answer with source attribution |
-| `/wiki lint [--fix]` | Health check: orphans, stale pages, broken refs, credential leaks |
-| `/wiki status` | Metrics dashboard: page count, health, recent changes |
+| `/llm-wiki ingest <source>` | Process a source (URL, file, text), update 5-15 wiki pages |
+| `/llm-wiki query <question>` | Search wiki, synthesize answer with source attribution |
+| `/llm-wiki lint [--fix]` | Health check: orphans, stale pages, broken refs, credential leaks |
+| `/llm-wiki status` | Metrics dashboard: page count, health, recent changes |
 
 ### Ingest Flow
 
-Ingest is the core operation. When you run `/wiki ingest "deployed v2.0 to production"`, here is what happens:
+Ingest is the core operation. When you run `/llm-wiki ingest "deployed v2.0 to production"`, here is what happens:
 
 ```mermaid
 graph LR
@@ -249,7 +249,7 @@ The difference between a dead wiki and a living one is page quality.
 - type:: knowledge
 - domain:: content
 - ## Newsletter
-  - To be filled via /wiki ingest.
+  - To be filled via /llm-wiki ingest.
 ```
 
 **After** -- synthesized from multiple sources over several ingest operations:

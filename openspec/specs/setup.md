@@ -4,7 +4,7 @@
 
 The setup script is the entry point for new users. It guides them through an
 interactive 11-step process to configure their wiki, create initial pages (Schema,
-Dashboard, Hub pages), generate the config file, and optionally install the /wiki
+Dashboard, Hub pages), generate the config file, and optionally install the /llm-wiki
 skill for Claude Code. It requires only bash, python3, and git.
 
 ---
@@ -110,10 +110,10 @@ skill for Claude Code. It requires only bash, python3, and git.
 
 ### Step 10: Skill Installation
 
-- REQ-800: The system SHALL ask if the user wants to install the /wiki skill
+- REQ-800: The system SHALL ask if the user wants to install the /llm-wiki skill
   for Claude Code.
 - REQ-801: The user MAY enter a project path or "skip" to decline.
-- REQ-802: If installing: copy `wiki.md` to `$project/.claude/commands/wiki.md`,
+- REQ-802: If installing: copy `llm-wiki.md` to `$project/.claude/commands/llm-llm-wiki.md`,
   creating the directory if needed.
 - REQ-803: The system SHALL patch the `<CONFIG_PATH>` placeholder in the
   copied skill file with the actual config file path using `sed`.
@@ -157,7 +157,7 @@ THEN the system SHALL:
     - Create 9 pages: Schema, Dashboard, 7 hub pages (one per default namespace)
     - Create llm-wiki.yml with all settings
     - Initialize git with .gitignore
-    - Copy wiki.md to ~/myproject/.claude/commands/wiki.md with patched config path
+    - Copy llm-wiki.md to ~/myproject/.claude/commands/llm-llm-wiki.md with patched config path
     - Create initial git commit
     - Display summary with next steps
 ```
@@ -226,7 +226,7 @@ AND exit with code 1
 
 ```
 WHEN the user enters "skip" for the skill installation prompt
-THEN the system SHALL NOT copy wiki.md anywhere
+THEN the system SHALL NOT copy llm-wiki.md anywhere
 AND SHALL NOT modify any files outside the wiki directory
 AND SHALL continue to the git commit step
 ```

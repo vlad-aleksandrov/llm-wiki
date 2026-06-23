@@ -16,7 +16,7 @@ inspired by CPU memory hierarchies.
 - **L1 (Fast, auto-loaded):** Claude Code memory directory (~10-20 files). Rules, gotchas,
   credentials, identity. Loaded every session. Git-excluded.
 - **L2 (On-demand):** Logseq or Obsidian wiki (~50-200 pages). Projects, workflows,
-  research, deep knowledge. Queried via `/wiki` commands. Git-tracked.
+  research, deep knowledge. Queried via `/llm-wiki` commands. Git-tracked.
 
 ## Tech Stack
 
@@ -32,7 +32,7 @@ inspired by CPU memory hierarchies.
 |------|-----|---------------|
 | Maintainer | Mehmet Goekce | Architecture, releases, specs |
 | Contributors | Open-source community | Features, bug fixes, templates |
-| Users | Claude Code users | Install, configure, use /wiki commands |
+| Users | Claude Code users | Install, configure, use /llm-wiki commands |
 
 ## Constraints
 
@@ -48,9 +48,9 @@ inspired by CPU memory hierarchies.
 
 | Spec | Covers | Requirements | Scenarios |
 |------|--------|-------------|-----------|
-| specs/ingest.md | /wiki ingest — 5-phase source processing pipeline | 25 | 10 |
-| specs/query.md | /wiki query — search, synthesis, write-back | 16 | 10 |
-| specs/lint.md | /wiki lint — 9 automated health checks with auto-fix | 23 | 10 |
+| specs/ingest.md | /llm-wiki ingest — 5-phase source processing pipeline | 25 | 10 |
+| specs/query.md | /llm-wiki query — search, synthesis, write-back | 16 | 10 |
+| specs/lint.md | /llm-wiki lint — 9 automated health checks with auto-fix | 23 | 10 |
 | specs/schema.md | Page types, properties, validation, format rules | 30 | 10 |
 | specs/config.md | llm-wiki.yml loading, validation, error handling | 18 | 8 |
 | specs/setup.md | setup.sh interactive installer (11 steps) | 28 | 10 |

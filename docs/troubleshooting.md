@@ -90,23 +90,23 @@ If you mix conventions (e.g., triple-underscore files inside an Obsidian vault),
 
 ## Claude Code Integration
 
-### `/wiki` commands aren't available in Claude Code
+### `/llm-wiki` commands aren't available in Claude Code
 
 **Cause:** The skill was not installed into your project. `setup.sh` offers to copy it but it is optional.
 
 **Fix:**
 
-1. Confirm `.claude/commands/wiki.md` exists in your project directory.
+1. Confirm `.claude/commands/llm-llm-wiki.md` exists in your project directory.
 2. If missing, re-run `./setup.sh` and answer `y` at the "Install wiki skill in a project?" step, then provide the project path.
 3. Alternatively, copy manually:
    ```bash
-   cp wiki.md ~/your-project/.claude/commands/wiki.md
+   cp llm-wiki.md ~/your-project/.claude/commands/llm-llm-wiki.md
    ```
-4. In `wiki.md`, verify the `<CONFIG_PATH>` placeholder has been replaced with the absolute path to your `llm-wiki.yml`.
+4. In `llm-wiki.md`, verify the `<CONFIG_PATH>` placeholder has been replaced with the absolute path to your `llm-wiki.yml`.
 
 Restart Claude Code for the skill to be picked up.
 
-### `/wiki ingest` runs forever or times out
+### `/llm-wiki ingest` runs forever or times out
 
 **Cause:** Source is too large, or the wiki has grown past the batch limit and Claude is trying to load too many pages at once.
 
@@ -116,7 +116,7 @@ Restart Claude Code for the skill to be picked up.
 - The ingest pipeline has a 3-page batch limit — if your wiki has hundreds of pages and many are relevant to the source, processing takes proportionally longer.
 - If Claude Code hits a context limit mid-ingest, it will stop and report. Re-run the same ingest — Claude's append-only discipline prevents duplicates.
 
-### `/wiki ingest` blocks with a credential-leak warning but the content has no credentials
+### `/llm-wiki ingest` blocks with a credential-leak warning but the content has no credentials
 
 **Cause:** False positive from lint rule #6. The credential-leak regex includes base64-like patterns (`[A-Za-z0-9+/]{40,}`), which also match innocent long strings — long URLs, hashes, or technical identifiers.
 
@@ -139,12 +139,12 @@ Never commit around the lint by force. The false positive rate is low, and genui
 
 - **Split namespaces.** If `Wiki/Tech/` has 50+ pages, consider splitting into `Wiki/Tech/Infrastructure/`, `Wiki/Tech/Languages/`, etc. Namespaces can go 3 levels deep.
 - **Consolidate hubs.** A hub page with 40 child links is useless. Group children into sub-sections with brief descriptions, not just a flat list.
-- **Run `/wiki lint` weekly.** Stale detection reveals pages that have not been updated in 90+ days — candidates for archival or deletion.
+- **Run `/llm-wiki lint` weekly.** Stale detection reveals pages that have not been updated in 90+ days — candidates for archival or deletion.
 - **Audit L1/L2.** If you find yourself querying the same L2 page every session, promote the essential part to L1.
 
 The wiki scales, but like any knowledge system, it requires periodic gardening.
 
-### `/wiki lint` keeps flagging the same orphan pages
+### `/llm-wiki lint` keeps flagging the same orphan pages
 
 **Cause:** Pages that have no incoming links are flagged as orphans. If the same pages appear every run, they are genuinely unlinked.
 
@@ -152,6 +152,6 @@ The wiki scales, but like any knowledge system, it requires periodic gardening.
 
 - Add the page to the appropriate hub page (e.g., `Wiki/Tech` hub should list all `Wiki/Tech/*` pages).
 - Add cross-references from related pages — if `Wiki/Projects/X` mentions `Wiki/Tech/Y`, make sure it uses `[[Wiki/Tech/Y]]` syntax.
-- Run `/wiki lint --fix` — it auto-adds missing hub entries where obvious.
+- Run `/llm-wiki lint --fix` — it auto-adds missing hub entries where obvious.
 
 If a page is genuinely isolated and cannot be linked from anywhere, it may be a sign the page is misplaced (wrong namespace) or should be deleted.

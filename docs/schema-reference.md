@@ -11,7 +11,7 @@ Without a schema, the LLM creates inconsistent pages. One page might use `status
 | Logseq | `Wiki___Schema.md` (in your pages directory) |
 | Obsidian | `Wiki/Schema.md` (in your vault) |
 
-The `/wiki` skill reads this file before every operation.
+The `/llm-wiki` skill reads this file before every operation.
 
 ## Page Types
 
@@ -306,7 +306,7 @@ Every non-hub page should end with a `### Cross-References` section listing its 
 
 ## Lint Rules
 
-The `/wiki lint` command checks these rules automatically. Run with `--fix` to auto-repair where possible.
+The `/llm-wiki lint` command checks these rules automatically. Run with `--fix` to auto-repair where possible.
 
 ### 1. Orphan Detection
 
@@ -340,7 +340,7 @@ The `/wiki lint` command checks these rules automatically. Run with `--fix` to a
 
 **Why:** Broken links are false promises. They suggest knowledge exists when it does not. They also indicate that a page was deleted or renamed without updating references.
 
-**Auto-fix:** Create stub pages for broken links with the appropriate type and a "To be filled via /wiki ingest" placeholder.
+**Auto-fix:** Create stub pages for broken links with the appropriate type and a "To be filled via /llm-wiki ingest" placeholder.
 
 ### 5. Hub Completeness
 

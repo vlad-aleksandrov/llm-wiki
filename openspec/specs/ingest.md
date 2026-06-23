@@ -1,4 +1,4 @@
-# Spec: /wiki ingest — Source Processing Pipeline
+# Spec: /llm-wiki ingest — Source Processing Pipeline
 
 ## Description
 
@@ -106,7 +106,7 @@ A single ingest run targets 5-15 page touches (creates + updates + hub updates).
 GIVEN llm-wiki.yml is configured with tool: logseq and wiki_path: /tmp/test-wiki
 AND the wiki has a Schema page and a Wiki/Tech hub page
 AND no page exists for "Redis"
-WHEN the user runs /wiki ingest "https://redis.io/docs/about/"
+WHEN the user runs /llm-wiki ingest "https://redis.io/docs/about/"
 THEN the system SHALL create a new page Wiki___Tech___Redis.md
 AND the page SHALL have properties: type:: entity, entity-type:: technology,
     created:: [today], updated:: [today], status:: active, source:: ingest
@@ -121,7 +121,7 @@ AND the report SHALL show: 1 page created, 1 hub updated, N cross-refs added
 ```
 GIVEN a page Wiki___Tech___Strapi.md exists with content "Headless CMS for Node.js"
 AND the page has updated:: 2026-03-01
-WHEN the user runs /wiki ingest "Strapi 5 uses documentId for PUT, not numeric id"
+WHEN the user runs /llm-wiki ingest "Strapi 5 uses documentId for PUT, not numeric id"
 THEN the system SHALL append a new block to the existing page
 AND the original content "Headless CMS for Node.js" SHALL still be present unchanged
 AND updated:: SHALL be changed to [today]

@@ -14,7 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - `setup.sh` creates `~/.config/llm-wiki/config.json` (XDG pointer to `llm-wiki.yml`) for plugin-based installs
 - Claude Code plugin packaging — installable as `llm-wiki@second-brain-wiki` via `/plugin install`
 - `.claude-plugin/marketplace.json` — registers repo as `second-brain-wiki` marketplace
-- `plugins/llm-wiki/` — plugin layout with `skills/wiki/SKILL.md`
+- `plugins/llm-wiki/` — plugin layout with `skills/llm-wiki/SKILL.md`
 
 ### Changed
 
@@ -72,10 +72,10 @@ First stable release.
 
 ### Added
 
-- `/wiki ingest` — 5-phase source processing pipeline (URL, file, text)
-- `/wiki query` — Search, synthesis, and source attribution
-- `/wiki lint` — 9 automated health checks with `--fix` auto-repair
-- `/wiki status` — Wiki metrics and health dashboard
+- `/llm-wiki ingest` — 5-phase source processing pipeline (URL, file, text)
+- `/llm-wiki query` — Search, synthesis, and source attribution
+- `/llm-wiki lint` — 9 automated health checks with `--fix` auto-repair
+- `/llm-wiki status` — Wiki metrics and health dashboard
 - `setup.sh` — Interactive installer for Logseq and Obsidian
 - L1/L2 dual-layer cache architecture (CPU cache metaphor)
 - Templates for both Logseq (outliner) and Obsidian (flat markdown)

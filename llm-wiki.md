@@ -1,13 +1,13 @@
 ---
-name: wiki
+name: llm-wiki
 description: >
-  Persistent wiki knowledge management — /wiki ingest <source>, /wiki query <question>,
-  /wiki lint [--fix], /wiki status, /wiki import.
-  Triggers: when the user types "/wiki" followed by a subcommand (ingest, query, lint, status, import).
-  Don't fire for general questions about wiki contents without an explicit /wiki prefix.
+  Persistent wiki knowledge management — /llm-wiki ingest <source>, /llm-wiki query <question>,
+  /llm-wiki lint [--fix], /llm-wiki status, /llm-wiki import.
+  Triggers: when the user types "/llm-wiki" followed by a subcommand (ingest, query, lint, status, import).
+  Don't fire for general questions about wiki contents without an explicit /llm-wiki prefix.
 ---
 
-# /wiki - LLM Wiki
+# /llm-wiki - LLM Wiki
 
 Persistent knowledge management powered by Claude Code. Maintains a structured wiki in Logseq or Obsidian using the L1/L2 cache architecture.
 
@@ -18,11 +18,11 @@ Persistent knowledge management powered by Claude Code. Maintains a structured w
 ## Arguments
 
 ```
-/wiki ingest <source>        Process source, create/update wiki pages
-/wiki query <question>       Search wiki, synthesize answer
-/wiki lint [--fix]           Health check: orphans, stale, broken refs
-/wiki status                 Wiki metrics and health overview
-/wiki import                 Import existing notes into wiki format
+/llm-wiki ingest <source>        Process source, create/update wiki pages
+/llm-wiki query <question>       Search wiki, synthesize answer
+/llm-wiki lint [--fix]           Health check: orphans, stale, broken refs
+/llm-wiki status                 Wiki metrics and health overview
+/llm-wiki import                 Import existing notes into wiki format
 ```
 
 ## Workflow
@@ -66,7 +66,7 @@ Read `~/.config/llm-wiki/config.json` to get `configPath`, then read `llm-wiki.y
 
 ## L1/L2 Boundary
 - L1 (Memory, auto-loaded): Rules, gotchas, identity, credentials — things Claude must know EVERY session
-- L2 (Wiki, on-demand): Projects, workflows, research — queried via /wiki when needed
+- L2 (Wiki, on-demand): Projects, workflows, research — queried via /llm-wiki when needed
 - Routing rule: "Would a mistake without this knowledge be dangerous/embarrassing? -> L1. Merely inconvenient? -> L2."
 - Credentials MUST stay in L1 (wiki is git-tracked!)
 </context>

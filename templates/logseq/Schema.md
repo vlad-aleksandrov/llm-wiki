@@ -58,7 +58,7 @@
 		- User identity (name, preferences)
 		- Credentials (MUST NEVER go into the wiki)
 		- Everything Claude needs to know at the START of every session
-	- ### L2 = Wiki (on-demand via `/wiki query`)
+	- ### L2 = Wiki (on-demand via `/llm-wiki query`)
 		- Projects and their details
 		- Workflows and processes
 		- Research and learning notes
@@ -67,7 +67,7 @@
 	- ### Boundary Rules
 		- New quick rule or gotcha discovered? --> Save to Claude Memory (L1)
 		- New project, workflow, or research? --> Save to Wiki (L2)
-		- Same info in L1 AND L2? --> Warning on `/wiki lint`
+		- Same info in L1 AND L2? --> Warning on `/llm-wiki lint`
 - ## Ingest Workflow
 	- Analyze new source --> extract entities, facts, relationships
 	- Identify affected wiki pages (existing + new)

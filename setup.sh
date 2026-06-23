@@ -276,15 +276,15 @@ mkdir -p "$HOME/.config/llm-wiki"
 echo "{\"configPath\": \"$CONFIG_FILE\"}" > "$HOME/.config/llm-wiki/config.json"
 echo -e "  ${GREEN}Created: ~/.config/llm-wiki/config.json${NC}"
 
-# ----- Step 10: Install /wiki skill -----
+# ----- Step 10: Install /llm-wiki skill -----
 echo ""
-echo -e "${BOLD}Installing /wiki skill for Claude Code...${NC}"
+echo -e "${BOLD}Installing /llm-wiki skill for Claude Code...${NC}"
 
-# Always install globally so /wiki is available in every project
+# Always install globally so /llm-wiki is available in every project
 GLOBAL_COMMANDS_DIR="$HOME/.claude/commands"
 mkdir -p "$GLOBAL_COMMANDS_DIR"
-cp "$SCRIPT_DIR/wiki.md" "$GLOBAL_COMMANDS_DIR/wiki.md"
-echo -e "${GREEN}Installed /wiki skill globally: ~/.claude/commands/wiki.md${NC}"
+cp "$SCRIPT_DIR/llm-wiki.md" "$GLOBAL_COMMANDS_DIR/llm-wiki.md"
+echo -e "${GREEN}Installed /llm-wiki skill globally: ~/.claude/commands/llm-wiki.md${NC}"
 
 # Optionally also install into a specific project
 read -p "Also install into a project's .claude/commands/ (or 'skip'): " project_path
@@ -292,8 +292,8 @@ if [ "$project_path" != "skip" ] && [ -n "$project_path" ]; then
     project_path="${project_path/#\~/$HOME}"
     COMMANDS_DIR="$project_path/.claude/commands"
     mkdir -p "$COMMANDS_DIR"
-    cp "$SCRIPT_DIR/wiki.md" "$COMMANDS_DIR/wiki.md"
-    echo -e "${GREEN}Also installed to $COMMANDS_DIR/wiki.md${NC}"
+    cp "$SCRIPT_DIR/llm-wiki.md" "$COMMANDS_DIR/llm-wiki.md"
+    echo -e "${GREEN}Also installed to $COMMANDS_DIR/llm-wiki.md${NC}"
 fi
 
 # ----- Step 11: Initial commit -----
@@ -319,7 +319,7 @@ echo -e "Config file:     ${BOLD}$CONFIG_FILE${NC}"
 echo ""
 echo -e "Next steps:"
 echo -e "  1. Open your wiki in $TOOL"
-echo -e "  2. In Claude Code, try: ${CYAN}/wiki ingest \"your first source\"${NC}"
-echo -e "  3. Run ${CYAN}/wiki status${NC} to see your wiki metrics"
+echo -e "  2. In Claude Code, try: ${CYAN}/llm-wiki ingest \"your first source\"${NC}"
+echo -e "  3. Run ${CYAN}/llm-wiki status${NC} to see your wiki metrics"
 echo ""
 echo -e "Documentation: ${CYAN}https://github.com/MehmetGoekce/llm-wiki${NC}"

@@ -46,7 +46,7 @@ that provides a structured knowledge management system for LLM assistants.
 
 | File | Purpose |
 |------|---------|
-| `wiki.md` | /wiki skill definition (the prompt Claude Code executes) |
+| `llm-wiki.md` | /llm-wiki skill definition (the prompt Claude Code executes) |
 | `setup.sh` | Interactive installer |
 | `config.example.yml` | Configuration template |
 | `docs/` | Architecture docs, schema reference |
